@@ -1,4 +1,3 @@
-
 # Domain Model Brainstorming Prompts
 
 ## Core Entity Identification
@@ -23,4 +22,4 @@
 ## "What If" Scenarios
 
 11. **Edge Cases:** Brainstorm potential edge cases and failure modes. What happens if a payment fails? What if a product is out of stock? How does the model handle these scenarios?
-12. **Future-Proofing:** What is the most likely way this system will need to change or grow in the next year? How can we design the model to accommodate that change without a major rewrite?
+12. **Future-Proofing:** What is the most likely way this system will need to change or grow in the next year? How can we design the model to accommodate that change without a major rewrite? 

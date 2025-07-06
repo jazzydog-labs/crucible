@@ -20,7 +20,7 @@ def test_copy_blueprint(monkeypatch, tmp_path):
         called["input"] = input
         called["check"] = check
 
-    blueprint = "0_domain_expert_persona.md"
+    blueprint = "001_domain_expert_persona.md"
     copy_blueprint(
         blueprint,
         directory=Path(__file__).resolve().parents[1] / "blueprints",

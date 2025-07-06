@@ -13,12 +13,78 @@ from crucible.orchestrator import Orchestrator
 BLUEPRINT_DIR = Path(__file__).resolve().parents[1] / "blueprints"
 
 
+# Optional YAML support. If PyYAML is available, we'll use it to parse blueprint
+# metadata that lives alongside the markdown files inside ``blueprints``.  The
+# file should be named ``blueprints.yaml`` and contain a simple mapping from the
+# markdown filename to a short human-readable summary, e.g.::
+#
+#     0_domain_expert_persona.md: Domain expert persona and DDD strategist blueprint
+#     1_brainstorm_entities.md: Prompts for brainstorming domain model entities
+#
+# If the YAML file or the ``yaml`` package is not available, the CLI gracefully
+# falls back to using the *first* non-blank line of each markdown file as the
+# preview (previous behaviour).
+
+# NB: We intentionally make ``yaml`` an *optional* dependency so that the core
+# package remains lightweight and unit-tests keep working in minimal
+# environments.
+
+try:
+    import yaml  # type: ignore
+
+    _HAS_YAML = True
+except ModuleNotFoundError:  # pragma: no cover – optional dep.
+    yaml = None  # type: ignore
+    _HAS_YAML = False
+
+
 def list_blueprints(directory: Path = BLUEPRINT_DIR) -> list[tuple[str, str]]:
-    """Return available blueprints and a one line preview."""
+    """Return available blueprints and a short preview/summary.
+
+    The function prefers explicit summaries defined in a companion
+    ``blueprints.yaml`` file.  If the YAML metadata file is not present *or*
+    cannot be parsed (for example when *PyYAML* is not installed), we fall back
+    to extracting the first non-blank line from each markdown file – which
+    preserves the original behaviour and keeps legacy tests passing.
+    """
+
+    # 1. Attempt to load YAML metadata (optional).
+    yaml_path = directory / "blueprints.yaml"
+    yaml_mapping: dict[str, str] | None = None
+
+    if yaml_path.exists() and _HAS_YAML:
+        try:
+            loaded = yaml.safe_load(yaml_path.read_text())  # type: ignore[attr-defined]
+            if isinstance(loaded, dict):
+                # ensure keys/values are str for our use-case.
+                yaml_mapping = {
+                    str(k): str(v) for k, v in loaded.items() if isinstance(k, str)
+                }
+        except Exception:  # pragma: no cover – JSON/YAML errors shouldn't crash.
+            yaml_mapping = None
+
     blueprints: list[tuple[str, str]] = []
-    for path in sorted(directory.glob("*.md")):
-        first_line = path.read_text().strip().splitlines()[0]
-        blueprints.append((path.name, first_line))
+
+    if yaml_mapping:
+        # Respect the order as written in the YAML file for nicer UX.
+        for name, summary in yaml_mapping.items():
+            md_path = directory / name
+            if md_path.exists():
+                blueprints.append((name, summary))
+
+        # Include any extra markdown files that weren't listed in YAML.
+        listed = set(yaml_mapping.keys())
+        for path in sorted(directory.glob("*.md")):
+            if path.name in listed:
+                continue
+            first_line = path.read_text().strip().splitlines()[0]
+            blueprints.append((path.name, first_line))
+    else:
+        # Fallback: original implementation – read the first line.
+        for path in sorted(directory.glob("*.md")):
+            first_line = path.read_text().strip().splitlines()[0]
+            blueprints.append((path.name, first_line))
+
     return blueprints
 
 
