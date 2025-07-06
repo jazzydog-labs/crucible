@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
-from cli import list_blueprints, copy_blueprint, blueprint_command, MEMORY_FILE
+from cli import list_blueprints, copy_blueprint, blueprint_command
 
 
 def test_list_blueprints():
