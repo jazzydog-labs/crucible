@@ -16,15 +16,16 @@ This document outlines a possible path for turning the high level designs into a
    - Implement rendering logic for prompts using context variables.
 
 4. **Orchestrator Prototype**
-   - Build a simple orchestrator that loads prompts, expands snippets, and interacts with a dummy AI adapter.
-   - Provide hooks for future plugin-based extensions.
+ - Build a simple orchestrator that loads prompts, expands snippets, and interacts with a dummy AI adapter.
+  - Provide hooks for future plugin-based extensions.
+  - Introduce an internal event bus so components communicate through events.
 
 5. **Experimentation Loop**
    - Use the orchestrator to run small brainstorming sessions and capture feedback.
    - Document successes and pain points in the `design` directory.
 
 6. **Evaluate Next Steps**
-   - After initial experiments, revisit architecture options.
-   - Consider breaking out microservices or formalizing the plugin system if necessary.
+ - After initial experiments, revisit architecture options.
+  - Consider breaking out microservices or formalizing the plugin system if necessary.
 
 > **Note**: Many details remain uncertain (data store, type of AI models, etc.). Document decisions as they arise to keep the project grounded.

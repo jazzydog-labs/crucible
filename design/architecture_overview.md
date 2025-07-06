@@ -78,3 +78,6 @@ sequenceDiagram
 
 ## Next Steps
 We can experiment with a small modular monolith first (Option A) while designing the architecture to allow future extraction into services or plugins as the project matures.
+
+## 2025 Update
+To ease future transition to microservices, the monolith will include an internal event bus and orchestrator. Each domain module publishes and consumes events, allowing components to be split into services later with minimal refactoring.
