@@ -1,0 +1,11 @@
+name: crucible
+description: Domain modeling and entity design workspace
+type: design
+remotes:
+  origin: https://github.com/jazzydog-labs/crucible.git
+integration_quality:
+  documentation_completeness: good
+  bom_integration: complete
+  context_file_coverage: good
+  last_updated: "2025-01-27"
+  notes: "Domain modeling and design workspace for the foundry ecosystem" 
