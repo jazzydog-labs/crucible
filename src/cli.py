@@ -11,6 +11,7 @@ from crucible.orchestrator import Orchestrator
 
 
 BLUEPRINT_DIR = Path(__file__).resolve().parents[1] / "blueprints"
+MEMORY_FILE = Path(__file__).resolve().parents[1] / ".crucible.memory"
 
 
 # Optional YAML support. If PyYAML is available, we'll use it to parse blueprint
@@ -104,30 +105,84 @@ def copy_blueprint(
         print("pbcopy not found; unable to copy to clipboard")
 
 
-def blueprint_command() -> None:
-    """Interactive blueprint chooser."""
+def blueprint_command(
+    *,
+    memory_file: Path = MEMORY_FILE,
+    input_func: Callable[[str], str] = input,
+    use_memory: bool = True,
+) -> None:
+    """Interactive blueprint chooser with *memory-based* default selection.
+
+    1. If a ``.crucible.memory`` file contains the name of an existing
+       blueprint, that blueprint is shown *first* in the interactive list.
+    2. The prompt defaults to selecting entry *1*; therefore pressing *Enter*
+       with no input re-uses the previously chosen blueprint.
+    3. The user can still type any number to pick a different blueprint.  The
+       new choice is then persisted back to ``.crucible.memory`` for next
+       time.
+
+    Passing ``use_memory=False`` skips step 1 entirely (list order is
+    untouched, and there is no remembered default).
+    """
+
+    # Determine last remembered blueprint (if any).
+    last_selection: str | None = None
+    if use_memory and memory_file.exists():
+        try:
+            candidate = memory_file.read_text().strip()
+            if candidate and (BLUEPRINT_DIR / candidate).exists():
+                last_selection = candidate
+        except Exception:  # pragma: no cover – memory errors shouldn't crash.
+            pass
+
+    # Build interactive list, moving remembered blueprint to the top.
     blueprints = list_blueprints()
+    if last_selection:
+        reordered = [bp for bp in blueprints if bp[0] == last_selection]
+        reordered.extend(bp for bp in blueprints if bp[0] != last_selection)
+        blueprints = reordered
+
+    # Present choices.
     for idx, (name, preview) in enumerate(blueprints, 1):
         print(f"{idx}: {name} - {preview}")
-    choice = input("Select blueprint number: ")
+
+    prompt = "Select blueprint number [1]: "
+    raw = input_func(prompt).strip()
+    choice = raw or "1"  # Default to first option (remembered or first in list).
+
     try:
         index = int(choice) - 1
         selected = blueprints[index][0]
     except (ValueError, IndexError):
         print("Invalid selection")
         return
+
+    # Copy to clipboard and persist the choice for next invocation.
     copy_blueprint(selected)
+    try:
+        memory_file.write_text(selected)
+    except Exception:  # pragma: no cover – ignore persistence errors.
+        pass
+
     print(f"Copied {selected} to clipboard")
 
 
 def main(argv: Iterable[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Crucible CLI")
     sub = parser.add_subparsers(dest="command")
-    sub.add_parser("blueprint", help="Copy a blueprint prompt to clipboard")
+    bp_parser = sub.add_parser(
+        "blueprint", help="Copy a blueprint prompt to clipboard (with memory)"
+    )
+    bp_parser.add_argument(
+        "-s",
+        "--select",
+        action="store_true",
+        help="Force interactive blueprint selection even if a previous choice was remembered.",
+    )
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     if args.command == "blueprint":
-        blueprint_command()
+        blueprint_command(use_memory=not getattr(args, "select", False))
     else:
         orch = Orchestrator()
         orch.bus.emit("generate_prompt", {"topic": "demo"})
