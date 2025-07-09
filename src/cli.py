@@ -167,23 +167,202 @@ def blueprint_command(
     print(f"Copied {selected} to clipboard")
 
 
-def main(argv: Iterable[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="Crucible CLI")
-    sub = parser.add_subparsers(dest="command")
-    bp_parser = sub.add_parser(
-        "blueprint", help="Copy a blueprint prompt to clipboard (with memory)"
-    )
-    bp_parser.add_argument(
-        "-s",
-        "--select",
-        action="store_true",
-        help="Force interactive blueprint selection even if a previous choice was remembered.",
-    )
-    args = parser.parse_args(list(argv) if argv is not None else None)
+def list_blueprints_formatted(category: str | None = None, search: str | None = None) -> list[tuple[str, str]]:
+    """List blueprints with optional filtering."""
+    all_blueprints = list_blueprints()
+    
+    # Filter by search term
+    if search:
+        search_lower = search.lower()
+        all_blueprints = [
+            (name, desc) for name, desc in all_blueprints
+            if search_lower in name.lower() or search_lower in desc.lower()
+        ]
+    
+    # Filter by category (based on filename prefix pattern)
+    if category:
+        cat_lower = category.lower()
+        all_blueprints = [
+            (name, desc) for name, desc in all_blueprints
+            if cat_lower in name.lower()
+        ]
+    
+    return all_blueprints
 
-    if args.command == "blueprint":
-        blueprint_command(use_memory=not getattr(args, "select", False))
+
+def format_output(content: str, format: str = "text") -> str:
+    """Format output based on requested format."""
+    if format == "json":
+        import json
+        return json.dumps({"content": content}, indent=2)
+    elif format == "yaml" and _HAS_YAML:
+        return yaml.dump({"content": content}, default_flow_style=False)
     else:
+        return content
+
+
+def write_output(content: str, output_file: str | None = None) -> None:
+    """Write output to file or stdout."""
+    if output_file:
+        Path(output_file).write_text(content)
+        print(f"Output written to {output_file}")
+    else:
+        print(content)
+
+
+def blueprint_by_name(name: str, output_format: str = "text", output_file: str | None = None) -> None:
+    """Copy a specific blueprint by name."""
+    blueprints = list_blueprints()
+    
+    # Try exact match first
+    for bp_name, _ in blueprints:
+        if bp_name == name:
+            content = (BLUEPRINT_DIR / bp_name).read_text()
+            formatted = format_output(content, output_format)
+            
+            if output_file:
+                write_output(formatted, output_file)
+            else:
+                copy_blueprint(bp_name)
+                print(f"Copied {bp_name} to clipboard")
+            return
+    
+    # Try partial match
+    matches = [(n, d) for n, d in blueprints if name.lower() in n.lower()]
+    if len(matches) == 1:
+        bp_name = matches[0][0]
+        content = (BLUEPRINT_DIR / bp_name).read_text()
+        formatted = format_output(content, output_format)
+        
+        if output_file:
+            write_output(formatted, output_file)
+        else:
+            copy_blueprint(bp_name)
+            print(f"Copied {bp_name} to clipboard")
+    elif len(matches) > 1:
+        print(f"Multiple blueprints match '{name}':")
+        for n, d in matches:
+            print(f"  - {n}: {d}")
+    else:
+        print(f"No blueprint found matching '{name}'")
+
+
+def brainstorm_command(topic: str, output_format: str = "text", output_file: str | None = None) -> None:
+    """Start a brainstorming session."""
+    from crucible.brainstormer import Brainstormer
+    
+    brainstormer = Brainstormer()
+    results = brainstormer.brainstorm({"prompt": topic})
+    
+    formatted = format_output(str(results), output_format)
+    write_output(formatted, output_file)
+
+
+def prompt_generate_command(context: str, output_format: str = "text", output_file: str | None = None) -> None:
+    """Generate custom prompts."""
+    from crucible.prompts.generator import PromptGenerator
+    
+    generator = PromptGenerator()
+    prompt = generator.generate({"context": context})
+    
+    formatted = format_output(prompt, output_format)
+    write_output(formatted, output_file)
+
+
+def main(argv: Iterable[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(
+        description="Crucible CLI - AI-assisted ideation and prompt management",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  cru blueprint                     # Interactive blueprint selection
+  cru blueprint --list              # List all available blueprints
+  cru blueprint --name domain       # Copy blueprint by name/partial match
+  cru brainstorm "new features"     # Start brainstorming session
+  cru prompt generate "API design"  # Generate custom prompts
+        """
+    )
+    
+    # Global options
+    parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Suppress non-essential output")
+    
+    sub = parser.add_subparsers(dest="command", help="Available commands")
+    
+    # Blueprint command
+    bp_parser = sub.add_parser(
+        "blueprint", 
+        help="Manage blueprint prompts",
+        description="Copy blueprint prompts to clipboard or file"
+    )
+    bp_parser.add_argument("-s", "--select", action="store_true", 
+                          help="Force interactive selection (ignore memory)")
+    bp_parser.add_argument("-l", "--list", action="store_true",
+                          help="List all available blueprints")
+    bp_parser.add_argument("--search", metavar="TERM",
+                          help="Search blueprints by name or description")
+    bp_parser.add_argument("--category", metavar="CAT",
+                          help="Filter blueprints by category")
+    bp_parser.add_argument("-n", "--name", metavar="NAME",
+                          help="Select blueprint by name (exact or partial match)")
+    bp_parser.add_argument("-o", "--output", metavar="FILE",
+                          help="Write to file instead of clipboard")
+    bp_parser.add_argument("-f", "--format", choices=["text", "json", "yaml"],
+                          default="text", help="Output format (default: text)")
+    
+    # Brainstorm command
+    bs_parser = sub.add_parser(
+        "brainstorm",
+        help="Start brainstorming session",
+        description="Generate ideas using various brainstorming techniques"
+    )
+    bs_parser.add_argument("topic", help="Topic to brainstorm about")
+    bs_parser.add_argument("-o", "--output", metavar="FILE",
+                          help="Write results to file")
+    bs_parser.add_argument("-f", "--format", choices=["text", "json", "yaml"],
+                          default="text", help="Output format (default: text)")
+    
+    # Prompt command
+    prompt_parser = sub.add_parser(
+        "prompt",
+        help="Prompt generation commands",
+        description="Generate and manage custom prompts"
+    )
+    prompt_sub = prompt_parser.add_subparsers(dest="prompt_command")
+    
+    # Prompt generate subcommand
+    gen_parser = prompt_sub.add_parser("generate", help="Generate custom prompts")
+    gen_parser.add_argument("context", help="Context for prompt generation")
+    gen_parser.add_argument("-o", "--output", metavar="FILE",
+                           help="Write prompt to file")
+    gen_parser.add_argument("-f", "--format", choices=["text", "json", "yaml"],
+                           default="text", help="Output format (default: text)")
+    
+    args = parser.parse_args(list(argv) if argv is not None else None)
+    
+    # Handle commands
+    if args.command == "blueprint":
+        if args.list:
+            blueprints = list_blueprints_formatted(args.category, args.search)
+            if not blueprints:
+                print("No blueprints found matching criteria")
+            else:
+                print("Available blueprints:")
+                for name, desc in blueprints:
+                    print(f"  {name}: {desc}")
+        elif args.name:
+            blueprint_by_name(args.name, args.format, args.output)
+        else:
+            blueprint_command(use_memory=not args.select)
+    
+    elif args.command == "brainstorm":
+        brainstorm_command(args.topic, args.format, args.output)
+    
+    elif args.command == "prompt" and args.prompt_command == "generate":
+        prompt_generate_command(args.context, args.format, args.output)
+    
+    else:
+        # Default demo behavior
         orch = Orchestrator()
         orch.bus.emit("generate_prompt", {"topic": "demo"})
 
