@@ -17,6 +17,18 @@ from crucible.prompts.generator import PromptGenerator, PromptType
 from crucible.ai_observability import demo_ai_budget_info, print_ai_summary
 
 
+def demo_killer_feature():
+    """The ONE thing that makes AI integration amazing."""
+    print("=== KILLER FEATURE: AI understands context and generates perfect prompts ===")
+    ai = AIModel()
+    pg = PromptGenerator(ai_model=ai)
+    
+    # One line to generate a sophisticated prompt
+    prompt = pg.generate({"topic": "startup MVP development"})
+    print(f"Generated: {prompt[:100]}...")
+    print("\n✨ From topic to tailored prompt in milliseconds - no templates needed!\n")
+
+
 async def run_demo_async(model: AIModel) -> List[Tuple[str, str, str]]:
     """Run three demo prompts in parallel."""
     
@@ -64,6 +76,9 @@ def main() -> None:
     """Run streamlined demo."""
     print("\n🚀 Crucible AI Demo")
     print("=" * 50)
+    
+    # Start with the killer feature
+    demo_killer_feature()
     
     # Initialize
     model = AIModel()

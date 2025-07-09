@@ -14,6 +14,19 @@ from crucible.ai import AIModel
 from crucible.ai_observability import demo_ai_budget_info, print_ai_summary
 
 
+def demo_killer_feature():
+    """The ONE thing that makes summarization amazing."""
+    print("=== KILLER FEATURE: Transform 100 ideas into actionable insights instantly ===")
+    
+    ideas = [f"Idea {i}: Implement feature {i%5} with approach {i%3}" for i in range(100)]
+    summarizer = Summarizer(AIModel())
+    
+    # One line to distill 100 ideas into top themes
+    summary = summarizer.summarize({"ideas": ideas, "strategy": "theme_based", "max_themes": 3})
+    print(f"100 ideas → 3 key themes: {summary[:150]}...")
+    print("\n✨ Hours of analysis in seconds - find patterns humans miss!\n")
+
+
 def print_section(title: str) -> None:
     """Print a formatted section header."""
     print(f"\n{'=' * 60}")
@@ -254,6 +267,9 @@ def main():
     """Run all demos."""
     print("\n🎯 CRUCIBLE SUMMARIZATION SYSTEM DEMO")
     print("=====================================")
+    
+    # Start with the killer feature
+    demo_killer_feature()
     
     # Show AI budget info
     demo_ai_budget_info()

@@ -20,6 +20,23 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent / 'src'))
 
 
+def demo_killer_feature():
+    """The ONE thing that makes the CLI amazing."""
+    print("=== KILLER FEATURE: Natural language blueprint discovery ===")
+    
+    # Search for blueprints using partial match
+    stdout, _, _ = run_command(["./cru", "blueprint", "--name", "domain"])
+    print("$ cru blueprint --name domain")
+    print(stdout)
+    
+    # Instant brainstorming from command line
+    stdout, _, _ = run_command(["./cru", "brainstorm", "API versioning strategies", "--format", "json"])
+    data = json.loads(stdout) if stdout else {"content": "demo"}
+    print(f"\n$ cru brainstorm 'API versioning strategies' --format json")
+    print(f"Generated {len(data.get('content', ''))} chars of structured ideas")
+    print("\n✨ From idea to action in one command - no UI needed!\n")
+
+
 def run_command(cmd):
     """Run a CLI command and return output."""
     result = subprocess.run(cmd, capture_output=True, text=True)
@@ -181,6 +198,9 @@ def main():
     print("=" * 50)
     
     try:
+        # Start with the killer feature
+        demo_killer_feature()
+        
         # Run all demos
         demo_blueprint_features()
         demo_brainstorm_command()

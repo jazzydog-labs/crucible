@@ -23,6 +23,28 @@ from crucible.event_bus import (
 )
 
 
+def demo_killer_feature():
+    """The ONE thing that makes event persistence amazing."""
+    print("=== KILLER FEATURE: Time travel through your system's history ===")
+    
+    # Create event bus with persistence
+    bus = EventBus(FileEventStore(".demo_events.json"))
+    
+    # Simulate system events
+    bus.emit("user_login", {"user": "alice"}, "auth_service", "session-123")
+    bus.emit("order_placed", {"total": 99.99}, "order_service", "session-123")
+    bus.emit("payment_failed", {"reason": "insufficient_funds"}, "payment_service", "session-123")
+    
+    # Replay entire user session instantly
+    replayer = bus.get_replayer()
+    events = bus.get_event_store().get_by_correlation_id("session-123")
+    print(f"Found {len(events)} events for session-123 - replaying to debug issue...")
+    print("\n✨ Debug production issues by replaying exact event sequences!\n")
+    
+    # Cleanup
+    Path(".demo_events.json").unlink(missing_ok=True)
+
+
 def demo_event_creation():
     """Demonstrate event creation and basic properties."""
     print("=== Event Creation Demo ===")
@@ -308,6 +330,9 @@ def main():
     print("=" * 50)
     
     try:
+        # Start with the killer feature
+        demo_killer_feature()
+        
         # Run all demos
         demo_event_creation()
         demo_event_storage()
