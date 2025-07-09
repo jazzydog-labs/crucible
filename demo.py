@@ -20,11 +20,22 @@ def print_section(title: str) -> None:
     print('=' * 60)
 
 
-def demo_ai_query() -> None:
+def print_cost_summary(model: AIModel) -> None:
+    """Print cost summary for API usage."""
+    stats = model.get_usage_stats()
+    print(f"\n💰 API Usage Summary:")
+    print(f"  Model: {stats['model']}")
+    print(f"  Requests: {stats['total_requests']}")
+    print(f"  Input tokens: {stats['total_input_tokens']:,}")
+    print(f"  Output tokens: {stats['total_output_tokens']:,}")
+    print(f"  Total tokens: {stats['total_tokens']:,}")
+    print(f"  Estimated cost: ${stats['total_cost']:.4f}")
+
+
+def demo_ai_query(model: AIModel) -> None:
     """Demonstrate direct AI querying."""
     print_section("1. Direct AI Query")
     
-    model = AIModel()
     prompt = "What is domain-driven design in one sentence?"
     print(f"Prompt: {prompt}")
     print("-" * 60)
@@ -36,11 +47,11 @@ def demo_ai_query() -> None:
         print(f"Error: {exc}")
 
 
-def demo_basic_prompt_generation() -> None:
+def demo_basic_prompt_generation(model: AIModel) -> None:
     """Demonstrate basic prompt generation."""
     print_section("2. Basic Prompt Generation")
     
-    pg = PromptGenerator()
+    pg = PromptGenerator(ai_model=model)
     context = {"topic": "microservices architecture"}
     
     print(f"Context: {context}")
@@ -53,11 +64,11 @@ def demo_basic_prompt_generation() -> None:
         print(f"Error: {exc}")
 
 
-def demo_prompt_types() -> None:
+def demo_prompt_types(model: AIModel) -> None:
     """Demonstrate different prompt types."""
     print_section("3. Different Prompt Types")
     
-    pg = PromptGenerator()
+    pg = PromptGenerator(ai_model=model)
     
     # Test different types
     test_cases = [
@@ -135,11 +146,11 @@ def demo_custom_template() -> None:
         print(f"Error: {exc}")
 
 
-def demo_prompt_chaining() -> None:
+def demo_prompt_chaining(model: AIModel) -> None:
     """Demonstrate prompt chaining for multi-stage workflows."""
     print_section("6. Prompt Chaining")
     
-    pg = PromptGenerator()
+    pg = PromptGenerator(ai_model=model)
     
     # Define a chain of prompts
     chain = [
@@ -167,13 +178,20 @@ def main() -> None:
     print("\n🚀 Crucible AI Integration Demo")
     print("================================")
     
+    # Create a shared AI model instance
+    model = AIModel()
+    print(f"\nUsing model: {model.model}")
+    
     # Run each demo
-    demo_ai_query()
-    demo_basic_prompt_generation()
-    demo_prompt_types()
+    demo_ai_query(model)
+    demo_basic_prompt_generation(model)
+    demo_prompt_types(model)
     demo_template_generation()
     demo_custom_template()
-    demo_prompt_chaining()
+    demo_prompt_chaining(model)
+    
+    # Show cost summary
+    print_cost_summary(model)
     
     print("\n\n✅ Demo complete!")
     print("\nNote: Responses are limited to 200 tokens to conserve API usage.")
