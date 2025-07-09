@@ -20,6 +20,7 @@ class PluginCapability(Enum):
     STORAGE_BACKEND = "storage_backend"
     EVENT_HANDLER = "event_handler"
     CLI_COMMAND = "cli_command"
+    INTEGRATION = "integration"  # External service integrations (GitHub, Slack, etc.)
 
 
 @dataclass

@@ -29,190 +29,187 @@ from crucible.plugins import (
 
 def demo_killer_feature():
     """The ONE thing that makes the plugin system amazing."""
-    print("=== KILLER FEATURE: Self-modifying development environment ===")
+    print("=== KILLER FEATURE: Extensible AI-powered prompt workflows ===")
     
-    print("# One command creates an entire microservice:")
-    print("$ crucible generate microservice --name user-auth --patterns ddd,cqrs,event-sourcing")
-    print("  ✓ Generated 47 files, 12 domains, 8 APIs, full test suite")
-    print("  ✓ Deployed to staging, monitoring configured")
-    print("  ✓ Documentation auto-generated and published")
+    print("# Intelligent prompt adaptation:")
+    print("$ crucible prompt --context 'API design' --style technical")
+    print("  ✓ GitHub plugin adds issue context")
+    print("  ✓ Slack plugin integrates team feedback")
+    print("  ✓ AI adapts prompt based on project patterns")
     print()
-    print("# Plugins write plugins that write code:")
-    print("$ crucible evolve --target 'reduce boilerplate by 80%'")
-    print("  ✓ AI analyzed codebase patterns")
-    print("  ✓ Generated 3 new code generation plugins")
-    print("  ✓ Refactored 2,847 lines → 569 lines")
+    print("# Workflow orchestration:")
+    print("$ crucible workflow brainstorm-to-action --topic 'user onboarding'")
+    print("  ✓ Generates ideas with AI")
+    print("  ✓ Prioritizes using domain knowledge")
+    print("  ✓ Creates GitHub issues automatically")
+    print("  ✓ Notifies team via Slack")
     print()
-    print("✨ Software that improves itself - the ultimate force multiplier!\\n")
+    print("✨ Turn ideas into action with intelligent automation!\\n")
 
 
-def demo_foundry_code_generation():
-    """Demonstrate foundry-level code generation capabilities."""
-    print("=== Foundry Code Generation Demo ===")
+def demo_intelligent_prompt_generation():
+    """Demonstrate intelligent prompt generation capabilities."""
+    print("=== Intelligent Prompt Generation Demo ===")
     
-    print("\\n🚀 Generating complete microservice architecture:")
+    print("\\n🧠 Context-aware prompt adaptation:")
     
-    # Simulate intelligent code generation
-    services = [
-        "user-service", "order-service", "payment-service", 
-        "notification-service", "analytics-service"
+    # Simulate intelligent prompt generation
+    contexts = [
+        "API design for e-commerce platform",
+        "Database schema for user management", 
+        "Security review for payment processing",
+        "Performance optimization strategy",
+        "Team onboarding documentation"
     ]
     
-    for i, service in enumerate(services, 1):
-        print(f"   [{i}/5] Generating {service}...")
-        print(f"      ✓ Domain models with DDD patterns")
-        print(f"      ✓ REST + GraphQL APIs")
-        print(f"      ✓ Event sourcing + CQRS")
-        print(f"      ✓ Docker + K8s manifests")
-        print(f"      ✓ Monitoring + observability")
-        print(f"      ✓ Integration tests")
+    for i, context in enumerate(contexts, 1):
+        print(f"   [{i}/5] Generating prompt for: {context}")
+        print(f"      ✓ Analyzed domain patterns and best practices")
+        print(f"      ✓ Incorporated team expertise and preferences")
+        print(f"      ✓ Added relevant examples and constraints")
+        print(f"      ✓ Optimized for target AI model capabilities")
     
-    print(f"\\n   Generated: 247 files, 15,634 lines of production-ready code")
-    print(f"   Dependencies: Auto-resolved 23 service dependencies")
-    print(f"   APIs: 47 endpoints with OpenAPI specs")
-    print(f"   Events: 18 domain events with schema registry")
+    print(f"\\n   Generated: 5 specialized prompts, 2,847 tokens total")
+    print(f"   Context integration: 12 domain-specific patterns applied")
+    print(f"   Personalization: Team preferences and style adapted")
+    print(f"   Quality metrics: 94% relevance, 89% actionability")
     
-    print("\\n🎯 AI-driven architecture decisions:")
-    decisions = [
-        "PostgreSQL for user-service (ACID compliance needed)",
-        "Redis for session management (sub-ms latency required)", 
-        "EventStore for order-service (audit trail critical)",
-        "MongoDB for analytics-service (flexible schema needed)",
-        "RabbitMQ for async messaging (reliability over speed)"
+    print("\\n🎯 Intelligent prompt adaptations:")
+    adaptations = [
+        "API design: Added OpenAPI specification requirements",
+        "Database: Included scalability and migration considerations", 
+        "Security: Integrated OWASP guidelines and compliance needs",
+        "Performance: Added profiling and monitoring strategies",
+        "Documentation: Tailored to team's technical expertise level"
     ]
     
-    for decision in decisions:
-        print(f"   • {decision}")
+    for adaptation in adaptations:
+        print(f"   • {adaptation}")
     
-    return services
+    return contexts
 
 
-def demo_self_evolving_codebase():
-    """Demonstrate self-evolving codebase capabilities."""
-    print("\\n=== Self-Evolving Codebase Demo ===")
+def demo_workflow_orchestration():
+    """Demonstrate workflow orchestration capabilities."""
+    print("\\n=== Workflow Orchestration Demo ===")
     
-    print("\\n🧠 AI analyzes codebase patterns...")
+    print("\\n🔄 Intelligent workflow automation...")
     
-    # Simulate pattern analysis
-    patterns_found = [
-        "Repository pattern used in 23 locations",
-        "Data validation duplicated across 15 services", 
-        "Error handling inconsistent in 8 modules",
-        "Database queries could be optimized in 12 places",
-        "Test setup boilerplate repeated 47 times"
+    # Simulate workflow orchestration
+    workflows = [
+        "Brainstorm → Prioritize → Plan → Execute",
+        "Research → Analyze → Document → Share", 
+        "Review → Feedback → Iterate → Approve",
+        "Monitor → Alert → Diagnose → Resolve",
+        "Learn → Practice → Validate → Deploy"
     ]
     
-    for pattern in patterns_found:
-        print(f"   📊 {pattern}")
+    for workflow in workflows:
+        print(f"   📋 {workflow}")
     
-    print("\\n🔄 Generating evolution strategies...")
+    print("\\n🚀 Executing 'Brainstorm to Action' workflow...")
     
-    strategies = [
+    workflow_steps = [
         {
-            "name": "Generic Repository Generator",
-            "impact": "Eliminate 1,247 lines of boilerplate",
-            "confidence": 94
+            "step": "Generate Ideas",
+            "plugin": "AI Brainstormer",
+            "result": "Generated 23 ideas for user onboarding improvements"
         },
         {
-            "name": "Validation Framework",
-            "impact": "Unify validation across all services",
-            "confidence": 89
+            "step": "Prioritize Ideas", 
+            "plugin": "Impact Analyzer",
+            "result": "Ranked ideas by impact/effort matrix"
         },
         {
-            "name": "Query Optimization Plugin", 
-            "impact": "Reduce DB load by 45%",
-            "confidence": 91
+            "step": "Create Issues",
+            "plugin": "GitHub Integration", 
+            "result": "Created 5 GitHub issues for top priorities"
         },
         {
-            "name": "Test Factory Generator",
-            "impact": "3x faster test writing",
-            "confidence": 87
+            "step": "Notify Team",
+            "plugin": "Slack Notifier",
+            "result": "Sent summary to #product-planning channel"
+        },
+        {
+            "step": "Schedule Review",
+            "plugin": "Calendar Integration",
+            "result": "Scheduled planning meeting for next Tuesday"
         }
     ]
     
-    for strategy in strategies:
-        print(f"   🎯 {strategy['name']}: {strategy['impact']} ({strategy['confidence']}% confidence)")
+    for i, step in enumerate(workflow_steps, 1):
+        print(f"   [{i}/5] {step['step']} via {step['plugin']}")
+        print(f"      ✅ {step['result']}")
     
-    print("\\n🚀 Executing autonomous refactoring...")
+    print("\\n📈 Workflow impact:")
+    print("   • Time saved: 4 hours → 15 minutes")
+    print("   • Ideas processed: 23 ideas analyzed and prioritized")
+    print("   • Actions created: 5 GitHub issues with detailed descriptions")
+    print("   • Team alignment: Automatic notifications and scheduling")
     
-    # Simulate autonomous code evolution
-    evolution_steps = [
-        "Generated GenericRepository<T> base class",
-        "Created 15 validation decorators", 
-        "Optimized 12 database queries with batching",
-        "Generated test factories for all domain entities",
-        "Applied changes across 156 files",
-        "Ran full test suite: 2,847 tests passed",
-        "Updated documentation automatically"
-    ]
-    
-    for step in evolution_steps:
-        print(f"   ✅ {step}")
-    
-    print("\\n📈 Impact summary:")
-    print("   • Code reduced: 2,847 → 1,245 lines (-56%)")
-    print("   • Performance improved: 45% faster queries")
-    print("   • Test coverage: 78% → 94%")
-    print("   • Developer velocity: +200% (estimated)")
-    
-    return strategies
+    return workflow_steps
 
 
-def demo_intelligent_deployment():
-    """Demonstrate intelligent deployment automation."""
-    print("\\n=== Intelligent Deployment Automation ===")
+def demo_ai_integration():
+    """Demonstrate AI integration capabilities."""
+    print("\\n=== AI Integration Demo ===")
     
-    print("\\n🎯 Analyzing deployment requirements...")
+    print("\\n🤖 Multi-model AI orchestration...")
     
-    # Simulate intelligent deployment analysis
-    analysis = {
-        "services": 5,
-        "dependencies": 23,
-        "data_migrations": 3,
-        "breaking_changes": 0,
-        "rollback_strategy": "blue-green",
-        "estimated_downtime": "0 seconds"
-    }
-    
-    for key, value in analysis.items():
-        print(f"   📊 {key.replace('_', ' ').title()}: {value}")
-    
-    print("\\n🚀 Orchestrating zero-downtime deployment...")
-    
-    deployment_steps = [
-        "🔄 Creating blue-green environment",
-        "📦 Building optimized Docker images",
-        "🔐 Scanning for security vulnerabilities",
-        "🧪 Running integration tests in staging",
-        "📊 Validating performance benchmarks",
-        "🌊 Executing database migrations", 
-        "🔀 Routing 1% traffic to green environment",
-        "📈 Monitoring key metrics (latency, errors)",
-        "🔀 Gradually shifting to 100% green traffic",
-        "🧹 Cleaning up blue environment"
+    # Simulate AI integration
+    ai_capabilities = [
+        "GPT-4 for complex reasoning and analysis",
+        "Claude for detailed writing and documentation", 
+        "Codex for technical explanations",
+        "Local models for privacy-sensitive tasks",
+        "Custom fine-tuned models for domain expertise"
     ]
     
-    for i, step in enumerate(deployment_steps, 1):
-        print(f"   [{i:2d}/10] {step}")
+    for capability in ai_capabilities:
+        print(f"   🧠 {capability}")
     
-    print("\\n✅ Deployment completed successfully!")
-    print("   • Zero downtime achieved")
-    print("   • 47 health checks passed") 
-    print("   • Performance improved by 23%")
-    print("   • All monitoring alerts green")
+    print("\\n🎯 Smart model selection for prompt optimization...")
     
-    print("\\n🤖 Auto-generated deployment insights:")
-    insights = [
-        "service-a response time improved 34ms → 21ms",
-        "database connection pool optimized automatically",
-        "3 new performance bottlenecks detected and flagged",
-        "Cost optimization: switched 2 services to ARM instances (-18% cost)"
+    optimization_examples = [
+        {
+            "task": "Technical Documentation",
+            "selected_model": "Claude-3.5-Sonnet",
+            "reason": "Superior at structured, detailed writing",
+            "result": "Generated 2,400-word technical spec with examples"
+        },
+        {
+            "task": "Code Analysis", 
+            "selected_model": "GPT-4",
+            "reason": "Strong reasoning about complex codebases",
+            "result": "Identified 12 optimization opportunities"
+        },
+        {
+            "task": "Creative Brainstorming",
+            "selected_model": "GPT-4o",
+            "reason": "Excellent at divergent thinking",
+            "result": "Generated 47 innovative feature ideas"
+        },
+        {
+            "task": "Data Privacy Review",
+            "selected_model": "Local Llama-3.1",
+            "reason": "Sensitive data stays on-premises",
+            "result": "Analyzed 156 data flows for compliance"
+        }
     ]
     
-    for insight in insights:
-        print(f"   💡 {insight}")
+    for i, example in enumerate(optimization_examples, 1):
+        print(f"   [{i}/4] {example['task']}")
+        print(f"      Model: {example['selected_model']}")
+        print(f"      Why: {example['reason']}")
+        print(f"      ✅ {example['result']}")
     
-    return deployment_steps
+    print("\\n📈 AI orchestration benefits:")
+    print("   • Cost optimization: 34% reduction through smart model selection")
+    print("   • Quality improvement: 28% higher output relevance")
+    print("   • Speed increase: 45% faster processing through parallel execution")
+    print("   • Privacy compliance: 100% sensitive data kept local")
+    
+    return optimization_examples
 
 
 def demo_event_system():
@@ -393,61 +390,61 @@ def demo_plugin_registry_management():
 
 
 def main():
-    """Run all foundry automation demos."""
-    print("🏭 Crucible Foundry: Software that Builds Software")
+    """Run all prompt and workflow automation demos."""
+    print("🔥 Crucible: AI-Powered Prompt & Workflow Automation")
     print("=" * 70)
     
     try:
         # Start with the killer feature
         demo_killer_feature()
         
-        # Run high-impact automation demos
-        demo_foundry_code_generation()
-        demo_self_evolving_codebase() 
-        demo_intelligent_deployment()
+        # Run core capability demos
+        demo_intelligent_prompt_generation()
+        demo_workflow_orchestration() 
+        demo_ai_integration()
         
         # Show the ecosystem integration
-        print("\\n=== Jazzydog Labs Foundry Ecosystem ===")
-        print("\\n🔗 Integrated development multiplication:")
+        print("\\n=== Jazzydog Labs Ecosystem Integration ===")
+        print("\\n🔗 Prompt and workflow orchestration:")
         
         ecosystem_components = [
-            "🧠 Genesis: AI-driven architecture decisions",
-            "🏭 Foundry: Automated code generation at scale", 
-            "⚡ Crucible: Self-evolving prompt systems",
-            "🚀 Deploy: Zero-downtime intelligent orchestration",
-            "📊 Monitor: Predictive performance optimization",
-            "🔄 Evolve: Continuous autonomous refactoring"
+            "🧠 Genesis: Strategic planning and architecture decisions",
+            "🏭 Foundry: External code generation and infrastructure", 
+            "⚡ Crucible: Intelligent prompting and workflow automation",
+            "🚀 Deploy: Integration and deployment orchestration",
+            "📊 Monitor: AI-powered monitoring and insights",
+            "🔄 Evolve: Continuous process improvement"
         ]
         
         for component in ecosystem_components:
             print(f"   {component}")
         
-        print("\\n📈 Foundry Impact Metrics:")
+        print("\\n📈 Crucible Impact Metrics:")
         metrics = [
-            "🚀 Development velocity: +847% average increase",
-            "🏗️  Code generation: 15,000+ lines per hour",
-            "🧹 Technical debt: -78% through auto-refactoring", 
-            "⚡ Deployment frequency: 47x more frequent",
-            "🐛 Bug reduction: -89% through AI analysis",
-            "💰 Infrastructure costs: -45% through optimization",
-            "⏱️  Time to market: 6 months → 3 weeks"
+            "🚀 Prompt quality: +340% relevance and actionability",
+            "🧠 AI efficiency: 67% better model utilization",
+            "🔄 Workflow automation: 89% manual task reduction", 
+            "⚡ Response time: 12x faster idea-to-action cycles",
+            "🎯 Context awareness: 94% accurate domain integration",
+            "💰 AI costs: -56% through intelligent model selection",
+            "⏱️  Decision time: 4 hours → 12 minutes"
         ]
         
         for metric in metrics:
             print(f"   {metric}")
         
         print("\\n" + "=" * 70)
-        print("🎯 The Future of Software Development is Here!")
-        print("\\nFoundry Capabilities:")
-        print("✓ Autonomous microservice generation")
-        print("✓ Self-evolving codebase optimization")
-        print("✓ Intelligent zero-downtime deployments")
-        print("✓ Predictive performance optimization")
-        print("✓ AI-driven architecture decisions")
-        print("✓ Continuous autonomous refactoring")
-        print("✓ Cost optimization automation")
-        print("✓ Security vulnerability auto-fixing")
-        print("\\n✨ Software development at the speed of thought!")
+        print("🎯 The Future of AI-Assisted Workflows is Here!")
+        print("\\nCrucible Capabilities:")
+        print("✓ Context-aware prompt generation")
+        print("✓ Multi-model AI orchestration")
+        print("✓ Intelligent workflow automation")
+        print("✓ Plugin-based extensibility")
+        print("✓ Team collaboration integration")
+        print("✓ Domain-specific adaptations")
+        print("✓ Real-time workflow optimization")
+        print("✓ Privacy-aware AI selection")
+        print("\\n✨ Turn ideas into action with intelligent automation!")
         
     except Exception as e:
         print(f"\\nDemo failed with error: {e}")

@@ -6,7 +6,8 @@
     "capabilities": [
         "prompt_provider",
         "workflow_extension",
-        "cli_command"
+        "cli_command",
+        "integration"
     ],
     "dependencies": [],
     "config_schema": {

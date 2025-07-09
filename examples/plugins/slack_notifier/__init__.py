@@ -9,9 +9,11 @@ from datetime import datetime
 
 # Add parent directories to path for imports
 import sys
-sys.path.append(str(Path(__file__).resolve().parents[4]))
+plugin_path = Path(__file__).resolve().parents[3] / "src"
+if str(plugin_path) not in sys.path:
+    sys.path.append(str(plugin_path))
 
-from src.crucible.plugins.base import (
+from crucible.plugins.base import (
     CruciblePlugin,
     PluginMetadata,
     PluginContext,

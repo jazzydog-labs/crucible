@@ -5,7 +5,8 @@
     "author": "Crucible Team",
     "capabilities": [
         "event_handler",
-        "output_formatter"
+        "output_formatter",
+        "integration"
     ],
     "dependencies": [],
     "config_schema": {
