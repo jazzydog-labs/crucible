@@ -72,7 +72,7 @@ def demo_prompt_types() -> None:
         
         try:
             prompt = pg.generate(context)
-            print(f"  {prompt[:100]}..." if len(prompt) > 100 else f"  {prompt}")
+            print(f"  {prompt}")
         except Exception as exc:
             print(f"  Error: {exc}")
 
@@ -157,7 +157,7 @@ def demo_prompt_chaining() -> None:
         results = pg.generate_chain(chain)
         for i, (prompt_def, result) in enumerate(zip(chain, results), 1):
             print(f"\nStep {i} - {prompt_def['prompt_type'].value}:")
-            print(f"  {result[:100]}..." if len(result) > 100 else f"  {result}")
+            print(f"  {result}")
     except Exception as exc:
         print(f"Error: {exc}")
 
