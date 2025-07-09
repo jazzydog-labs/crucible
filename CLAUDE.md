@@ -68,6 +68,7 @@ The project follows a modular monolith design with event-driven architecture:
 - No package management files exist yet - dependencies are minimal (openai, PyYAML optional)
 - AI integration is incomplete - `ai.py` query method needs implementation
 - Event bus is implemented but underutilized - ready for future expansion
+- **IMPORTANT**: Never truncate or cut off strings in output. Always display full content, especially in demo.py
 
 ## Task Management System
 

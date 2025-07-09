@@ -80,7 +80,7 @@ def main() -> None:
     for i, (demo_type, input_text, result) in enumerate(results, 1):
         print(f"{i}. {demo_type}")
         print(f"   Input: {input_text}")
-        print(f"   Output: {result[:200]}{'...' if len(result) > 200 else ''}")
+        print(f"   Output: {result}")
         print()
     
     # Timing and cost
