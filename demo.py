@@ -14,6 +14,7 @@ sys.path.append(str(Path(__file__).resolve().parent / "src"))
 
 from crucible.ai import AIModel
 from crucible.prompts.generator import PromptGenerator, PromptType
+from crucible.ai_observability import demo_ai_budget_info, print_ai_summary
 
 
 async def run_demo_async(model: AIModel) -> List[Tuple[str, str, str]]:
@@ -68,6 +69,9 @@ def main() -> None:
     model = AIModel()
     print(f"Model: {model.model}")
     
+    # Show AI budget info
+    demo_ai_budget_info()
+    
     # Time the execution
     start_time = time.time()
     
@@ -89,6 +93,10 @@ def main() -> None:
     
     print(f"⏱️  Time: {elapsed:.2f}s")
     print(f"💰 Cost: ${stats['total_cost']:.4f} ({stats['total_tokens']:,} tokens)")
+    
+    # Show global AI usage summary
+    print_ai_summary()
+    
     print("\n✅ Done!")
 
 

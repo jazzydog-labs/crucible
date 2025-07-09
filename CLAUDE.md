@@ -70,6 +70,18 @@ The project follows a modular monolith design with event-driven architecture:
 - Event bus is implemented but underutilized - ready for future expansion
 - **IMPORTANT**: Never truncate or cut off strings in output. Always display full content, especially in demo.py
 
+## AI Usage Policy
+
+**Repository-wide AI observability and cost control is enforced:**
+
+- **Model Restriction**: Only `gpt-4o-mini` (nano model) is allowed
+- **Token Limits**: Maximum 1000 tokens per demo session
+- **Cost Tracking**: All AI calls are automatically tracked with real-time cost reporting
+- **Observability**: Usage logged to `.ai_usage.json` with detailed metrics
+- **Enforcement**: Requests exceeding limits are automatically blocked
+
+All AI calls go through the observability system in `src/crucible/ai_observability.py`. This ensures predictable costs and prevents runaway API usage during development and demos.
+
 ## Task Management System
 
 This project uses a commit-based task tracking system. Tasks are organized as numbered markdown files in the `commits/` directory:

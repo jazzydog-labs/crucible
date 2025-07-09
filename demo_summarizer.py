@@ -11,6 +11,7 @@ sys.path.append(str(Path(__file__).resolve().parent / "src"))
 
 from crucible.summarizer import Summarizer, OutputFormat
 from crucible.ai import AIModel
+from crucible.ai_observability import demo_ai_budget_info, print_ai_summary
 
 
 def print_section(title: str) -> None:
@@ -254,6 +255,9 @@ def main():
     print("\n🎯 CRUCIBLE SUMMARIZATION SYSTEM DEMO")
     print("=====================================")
     
+    # Show AI budget info
+    demo_ai_budget_info()
+    
     demos = [
         demo_extractive_summarization,
         demo_hierarchical_summarization,
@@ -280,6 +284,9 @@ def main():
         # demo_abstractive_summarization()
     except Exception as e:
         print(f"\nError in AI demo: {e}")
+    
+    # Show AI usage summary
+    print_ai_summary()
     
     print("\n\n✅ Demo complete!")
     print("\nAvailable strategies:", Summarizer().get_available_strategies())

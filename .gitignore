@@ -2,3 +2,5 @@ __pycache__/
 .pytest_cache/
 .crucible.memory
 .OPENAI_API_KEY
+.ai_usage.json
+.coverage

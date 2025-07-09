@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from typing import Dict, Tuple
 import openai
+from .ai_observability import get_observer, CostLimitExceeded
 
 
 class AIModel:
@@ -47,6 +48,26 @@ class AIModel:
 
     def query(self, prompt: str, max_tokens: int = 200) -> str:
         """Return the assistant's reply for *prompt* using the configured model."""
+        observer = get_observer()
+        
+        # Estimate tokens for pre-request check
+        estimated_prompt_tokens = len(prompt) // 4  # Rough estimate: 4 chars per token
+        
+        # Check repo-wide policies
+        try:
+            observer.pre_request_check(
+                model=self.model,
+                estimated_tokens=estimated_prompt_tokens + max_tokens,
+                caller=f"{self.__class__.__module__}.{self.__class__.__name__}.query"
+            )
+        except CostLimitExceeded as e:
+            print(f"❌ AI Request Blocked: {e}")
+            raise
+        
+        # Enforce repo limits
+        if max_tokens > observer.MAX_TOKENS_PER_DEMO:
+            max_tokens = min(max_tokens, observer.MAX_TOKENS_PER_DEMO)
+            print(f"⚠️  Max tokens reduced to {max_tokens} (repo policy)")
         
         response = self.client.chat.completions.create(
             model=self.model,
@@ -58,11 +79,30 @@ class AIModel:
             max_tokens=max_tokens
         )
         
-        # Track usage
+        # Track usage locally and globally
         if hasattr(response, 'usage'):
-            self.total_input_tokens += response.usage.prompt_tokens
-            self.total_output_tokens += response.usage.completion_tokens
+            prompt_tokens = response.usage.prompt_tokens
+            completion_tokens = response.usage.completion_tokens
+            
+            # Local tracking
+            self.total_input_tokens += prompt_tokens
+            self.total_output_tokens += completion_tokens
             self.total_requests += 1
+            
+            # Global observability tracking
+            model_pricing = self.PRICING.get(self.model, self.PRICING[self.GPT_4O_MINI])
+            cost = (prompt_tokens / 1_000_000 * model_pricing["input"] + 
+                   completion_tokens / 1_000_000 * model_pricing["output"])
+            
+            observer.record_usage(
+                model=self.model,
+                prompt_tokens=prompt_tokens,
+                completion_tokens=completion_tokens,
+                estimated_cost=cost,
+                caller="AIModel.query",
+                purpose="general_query",
+                success=True
+            )
         
         return response.choices[0].message.content.strip()
     
