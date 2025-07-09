@@ -330,12 +330,29 @@ def demo_validation_and_business_rules():
     print("   ✓ Circular references prevented by validation")
 
 
+def demo_killer_feature():
+    """The ONE thing that makes domain models amazing."""
+    print("=== KILLER FEATURE: Auto-extract variables from any prompt template ===")
+    prompt = Prompt.create(
+        "Quick Template",
+        "Generate a {language} API for {domain} with {auth_type} authentication",
+        Category("Templates")
+    )
+    print(f"Found {len(prompt.variables)} variables automatically: {', '.join(prompt.get_required_variables())}")
+    rendered = prompt.render({"language": "Python", "domain": "E-commerce", "auth_type": "OAuth2"})
+    print(f"Instant render: {rendered}")
+    print("\n✨ No manual variable definition needed - just write and use!\n")
+
+
 def main():
     """Run all domain model demos."""
     print("Core Domain Models Demo")
     print("=" * 50)
     
     try:
+        # Start with the killer feature
+        demo_killer_feature()
+        
         # Run all demos
         demo_value_objects()
         prompt = demo_prompt_entity()
