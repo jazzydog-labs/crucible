@@ -20,12 +20,12 @@ class Orchestrator:
     def handle_generate_prompt(self, payload):
         print("todo: implement generate_prompt handler")
         prompt = self.generator.generate(payload)
-        self.bus.emit("brainstorm", {"prompt": prompt})
+        self.bus.emit_legacy("brainstorm", {"prompt": prompt})
 
     def handle_brainstorm(self, payload):
         print("todo: implement brainstorm handler")
         ideas = self.brainstormer.brainstorm(payload)
-        self.bus.emit("summarize", {"ideas": ideas})
+        self.bus.emit_legacy("summarize", {"ideas": ideas})
 
     def handle_summarize(self, payload):
         print("todo: implement summarize handler")

@@ -8,13 +8,20 @@ default:
 blueprint *args:
     ./cru blueprint {{args}}
 
+# Run all demos
+demo: demo-ai demo-summarizer demo-event-persistence
+
 # Run AI integration demo
-demo:
+demo-ai:
     @python demo.py
 
 # Run summarizer demo
 demo-summarizer:
     @python demo_summarizer.py
+
+# Run event-persistence demo
+demo-event-persistence:
+    @python demo_event_persistence.py
 
 # Run tests with coverage
 test:
