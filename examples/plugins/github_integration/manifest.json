@@ -1,0 +1,26 @@
+{
+    "name": "github_integration",
+    "version": "1.0.0",
+    "description": "GitHub integration for managing issues and pull requests",
+    "author": "Crucible Team",
+    "capabilities": [
+        "prompt_provider",
+        "workflow_extension",
+        "cli_command"
+    ],
+    "dependencies": [],
+    "config_schema": {
+        "type": "object",
+        "properties": {
+            "token": {
+                "type": "string",
+                "description": "GitHub personal access token"
+            },
+            "default_repo": {
+                "type": "string",
+                "description": "Default repository (owner/repo format)"
+            }
+        },
+        "required": ["token"]
+    }
+}

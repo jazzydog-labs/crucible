@@ -9,7 +9,7 @@ blueprint *args:
     ./cru blueprint {{args}}
 
 # Run all demos
-demo: demo-ai demo-summarizer demo-event-persistence demo-cli-enhanced demo-repository demo-domain
+demo: demo-ai demo-summarizer demo-event-persistence demo-cli-enhanced demo-repository demo-domain demo-plugins
 
 # Run AI integration demo
 demo-ai:
@@ -34,6 +34,10 @@ demo-repository:
 # Run domain models demo
 demo-domain:
     @python demo_domain_models.py
+
+# Run plugin system demo
+demo-plugins:
+    @python demo_plugins.py
 
 # Run tests with coverage
 test:

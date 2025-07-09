@@ -1,0 +1,30 @@
+{
+    "name": "slack_notifier",
+    "version": "1.0.0",
+    "description": "Send notifications to Slack channels",
+    "author": "Crucible Team",
+    "capabilities": [
+        "event_handler",
+        "output_formatter"
+    ],
+    "dependencies": [],
+    "config_schema": {
+        "type": "object",
+        "properties": {
+            "webhook_url": {
+                "type": "string",
+                "description": "Slack webhook URL"
+            },
+            "default_channel": {
+                "type": "string",
+                "description": "Default channel for notifications"
+            },
+            "username": {
+                "type": "string",
+                "description": "Bot username",
+                "default": "Crucible Bot"
+            }
+        },
+        "required": ["webhook_url"]
+    }
+}
