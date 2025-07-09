@@ -3,31 +3,47 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
+import openai
 
 
 class AIModel:
-    """Query an OpenAI chat completion model."""
+    """Thin wrapper around OpenAI responses.
+    """
 
-    def __init__(self, api_key: str | None = None, model: str = "gpt-3.5-turbo") -> None:
-        try:  # Lazy optional import to keep dependency optional.
-            import openai  # type: ignore
-        except ModuleNotFoundError as exc:  # pragma: no cover - runtime path
-            raise RuntimeError(
-                "openai package is required for AIModel but is not installed"
-            ) from exc
+    GPT_4_1_MINI = "gpt-4.1-mini"
 
-        self._openai = openai
-        self._openai.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        self._model = model
+    def __init__(self, api_key: str | None = None, model: str = GPT_4_1_MINI) -> None:
+
+        self.model = model
+
+        # ------------------------------------------------------------------
+        # API-key discovery – explicit param > env var > dot-file.
+        # ------------------------------------------------------------------
+        selected_key = api_key or os.getenv("OPENAI_API_KEY")
+        if not selected_key:
+            key_file = Path.cwd() / ".OPENAI_API_KEY"
+            if key_file.exists():
+                selected_key = key_file.read_text().strip()
+
+
+        self.client = openai.OpenAI(api_key=selected_key)
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
 
     def query(self, prompt: str) -> str:
-        """Return the assistant message for ``prompt``."""
-        response = self._openai.ChatCompletion.create(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
+        """Return the assistant's reply for *prompt* using the configured model."""
+        
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            max_tokens=1000
         )
-        return (
-            response["choices"][0]["message"]["content"].strip()
-            if response.get("choices")
-            else ""
-        )
+        
+        return response.choices[0].message.content.strip()
