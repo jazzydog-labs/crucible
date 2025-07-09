@@ -68,3 +68,37 @@ The project follows a modular monolith design with event-driven architecture:
 - No package management files exist yet - dependencies are minimal (openai, PyYAML optional)
 - AI integration is incomplete - `ai.py` query method needs implementation
 - Event bus is implemented but underutilized - ready for future expansion
+
+## Task Management System
+
+This project uses a commit-based task tracking system. Tasks are organized as numbered markdown files in the `commits/` directory:
+
+- `commits/open/` - Contains pending tasks to be implemented
+- `commits/closed/` - Contains completed tasks
+
+### Working on Tasks
+
+When implementing a task:
+1. Choose a task from `commits/open/` (e.g., `0003_expand_prompt_generation.md`)
+2. Read the task description and requirements
+3. Implement the changes as specified
+4. As part of your commit, move the task file from `open/` to `closed/`:
+   ```bash
+   git mv commits/open/0003_expand_prompt_generation.md commits/closed/
+   git add [your implementation files]
+   git commit -m "feat: expand prompt generation logic
+
+   - [implementation details]
+   
+   Closes: commits/open/0003_expand_prompt_generation.md"
+   ```
+
+### Current Open Tasks
+
+Check `commits/open/` for available tasks. Each file contains:
+- Detailed requirements
+- Proposed implementation approach
+- Files that need to be changed
+- Architecture considerations
+
+This system helps track granular progress and makes it easy to pick up individual work items.
