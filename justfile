@@ -12,13 +12,21 @@ blueprint *args:
 demo:
     @python demo.py
 
-# Run tests
+# Run summarizer demo
+demo-summarizer:
+    @python demo_summarizer.py
+
+# Run tests with coverage
 test:
-    python -m pytest tests/
+    python -m pytest tests/ --cov=src --cov-report=term-missing
 
 # Run tests with verbose output
 test-verbose:
     python -m pytest -v tests/
+
+# Run tests with one-line summary
+test-silent:
+    @python test_summary.py
 
 # Clean up Python cache files
 clean:
